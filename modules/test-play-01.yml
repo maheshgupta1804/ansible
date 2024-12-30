@@ -1,0 +1,34 @@
+---
+- name: Test Play
+  hosts: all
+  gather_facts: True
+  
+  vars:
+    hello_world: "Hello World from Ansible !!!"
+
+  tasks:
+  - name: Create a File Using Line Module
+    ansible.builtin.file:
+      path: /root/demo.log
+      owner: root
+      group: root
+      mode: 0400
+      state: touch
+    become: True
+
+  - name: Add a Line Using Copy Module
+    ansible.builtin.copy:
+      content: |
+        "Hello World from Ansible !!!"
+        Line 1
+        Line 2
+      dest: /root/demo.log
+      mode: 0400
+    become: True
+
+  - name: Remove a File Using File Module
+    ansible.builtin.file:
+      path: /root/demo.log
+      state: absent
+    become: True
+       

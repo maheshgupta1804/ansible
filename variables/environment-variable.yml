@@ -1,0 +1,27 @@
+---
+- name: Environment Variable Example Test Playbook
+  hosts: masters
+  gather_facts: no
+  environment:
+  - MY_FIRSTNAME: "Mahesh"
+  tasks:
+  - name: Print the Value of First Environment Variable
+    ansible.builtin.command:
+      echo "$USER" 
+    register: output
+    changed_when: output.rc != 0
+
+  - name: Print the Value of Task Level Variable
+    environment:
+    - MY_LASTNAME: "Gupta"
+    ansible.builtin.command:
+      echo "$MY_LASTNAME"
+    register: output
+    changed_when: output.rc != 0
+  
+  - name: Print the Value of System Variable
+    ansible.builtin.command:
+      echo "$USER"
+    register: output
+    changed_when: output.rc != 0
+

@@ -1,0 +1,25 @@
+---
+- name: Command Module Example Play
+  hosts: all
+  become: true
+  gather_facts: yes
+
+  tasks:
+  - name: Command Module
+    ansible.builtin.command:
+      cat "/etc/hosts"
+    register: result
+    changed_when: result.rc != 0
+
+  - name: Debug Module
+    vars:
+      is_false: false
+      is_true: true
+    ansible.builtin.debug:
+      msg: "{{ result['stdout'] }}"
+    when: is_true
+
+  - name: Hostvars Example
+    ansible.builtin.debug:
+      var: hostvars['worker01'].dns_server
+
