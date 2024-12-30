@@ -1,0 +1,4 @@
+Hostname,OS,Distro Ver,Kernel Ver,Uptime
+master01, OracleLinux, 8.10, 4.18.0-553.33.1.el8_10.x86_64, 3892
+worker01, OracleLinux, 8.10, 4.18.0-553.33.1.el8_10.x86_64, 2884
+worker02, OracleLinux, 8.10, 4.18.0-553.33.1.el8_10.x86_64, 2762

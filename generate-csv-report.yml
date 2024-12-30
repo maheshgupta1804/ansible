@@ -1,24 +1,37 @@
 ---
 - name: Generate CSV Report
-  hosts: rhel
-  become: True
-  gather_facts: True
+  hosts: all
+  become: true
+  gather_facts: true
 
   vars:
-    csv_path: /tmp
-    csv_filename: report.csv
+    csv_path: /home/admin/ansible/
     headers: Hostname,OS,Distro Ver,Kernel Ver,Uptime
 
   tasks:
+  - name: CSV Filename
+    ansible.builtin.set_fact:
+      csv_filename: report.{{ lookup('pipe', 'date +\%Y\%m\%d\%H\%M\%S') }}.csv
+
   - name: Save CSV headers
     ansible.builtin.lineinfile:
       dest: "{{ csv_path }}/{{ csv_filename }}"
       line: "{{ headers }}"
-      create: True
+      create: true
+      state: present
+      mode: 0777
+      group: admin
+      owner: admin
+    run_once: true
+    delegate_to: localhost
+
+  - name: Build out CSV File
+    ansible.builtin.lineinfile:
+      dest: "{{ csv_path }}/{{ csv_filename }}"
+      line: "{{ ansible_facts['hostname'] }}, {{ ansible_facts['distribution'] }}, {{ ansible_facts['distribution_version'] }}, {{ ansible_facts['kernel'] }}, {{ ansible_facts['uptime_seconds'] }}"
+      create: true
       state: present
       mode: 0777
       group: admin
       owner: admin
     delegate_to: localhost
-    run_once: True
-
