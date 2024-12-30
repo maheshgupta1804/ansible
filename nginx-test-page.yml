@@ -1,0 +1,18 @@
+---
+- name: NGINX Test Page Playbook With Jinja2 Template
+  hosts: workers
+  become: True
+  gather_facts: True
+  
+  tasks:
+  - name: Create NGINX Welcome Page with Jinja2 Template
+    ansible.builtin.template:
+      src: templates/index.html.j2
+      dest: /usr/share/nginx/html/index.html
+      mode: 0644
+      backup: yes
+  
+  - name: Start NGINX Service
+    ansible.builtin.service:
+      name: nginx
+      state: started

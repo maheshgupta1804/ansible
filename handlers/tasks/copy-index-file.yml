@@ -1,0 +1,11 @@
+---
+- name: Copy Index File
+  ansible.builtin.copy:
+    src: ./index.html
+    dest: /usr/share/nginx/html/index.html
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+  notify:
+  - Nginx Service Restart

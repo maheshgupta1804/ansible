@@ -1,0 +1,95 @@
+---
+- name: Update VMs Configs
+  hosts: all
+  gather_facts: True
+  
+  tasks:
+  - name: Create /usr/local/bin/enp0s8-restart.sh script
+    become: True
+    ansible.builtin.copy:
+      dest: /usr/local/bin/enp0s8-restart.sh
+      mode: 0766
+      owner: root
+      group: root
+      content: |
+        #!/usr/bin/env bash
+        # Script to restart enp0s8 NIC Card
+        ping -w 3 www.google.com 1>>/dev/null 2>>/dev/null
+        if [ $? != '0' ]; then
+            ifconfig enp0s8 down
+            ifconfig enp0s8 up
+        fi
+
+  - name: Apply Execute Permission to script enp0s8-restart.sh
+    ansible.builtin.file:
+      path: /usr/local/bin/enp0s8-restart.sh
+      mode: 'a+x'
+    become: True
+
+  - name: Update root user crontab file
+    become: True
+    ansible.builtin.copy:
+      dest: /var/spool/cron/root
+      mode: 0600
+      owner: root
+      group: root
+      content: |
+        * * * * *  sh /usr/local/bin/enp0s8-restart.sh
+
+  - name: Restart Cron Service
+    ansible.builtin.service:
+      name: crond.service
+      state: restarted
+    become: True
+
+  - name: Update /etc/hosts File
+    become: True
+    ansible.builtin.copy:
+      dest: /etc/hosts
+      mode: 0444
+      owner: root
+      group: root
+      content: |
+        127.0.0.1       localhost
+        192.168.56.11   master01        master01.test.local
+        192.168.56.12   worker01        worker01.test.local
+        192.168.56.13   worker02        worker02.test.local
+
+  - name: Update Aliases for Admin User
+    become: True
+    ansible.builtin.copy:
+      dest: /home/admin/.bashrc
+      mode: 0644
+      owner: admin
+      group: admin
+      content: |
+        # .bashrc
+
+        # Source global definitions
+        if [ -f /etc/bashrc ]; then
+                . /etc/bashrc
+        fi
+
+        # User specific environment
+        if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
+        then
+            PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+        fi
+        export PATH
+
+        # Uncomment the following line if you don't like systemctl's auto-paging feature:
+        # export SYSTEMD_PAGER=
+
+        # User specific aliases and functions # START #
+
+        alias yum='sudo yum'
+        alias init='sudo init'
+        alias systemctl='sudo systemctl'
+        alias cls='clear'
+        alias vi='sudo vim'
+        alias ll='ls -lhtr --color=auto'
+        alias journalctl='sudo journalctl'
+
+        # User specific aliases and functions #  END  #
+
+

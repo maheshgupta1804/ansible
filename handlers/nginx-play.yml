@@ -1,0 +1,17 @@
+---
+- name: Nginx Play
+  hosts: workers
+  become: true
+  gather_facts: false
+
+  tasks:
+  - name: Connection Check
+    ansible.builtin.import_tasks: ./tasks/connection-check.yml
+  - name: Nginx Installation
+    ansible.builtin.import_tasks: ./tasks/nginx-installation.yml
+  - name: Copy Index File
+    ansible.builtin.import_tasks: ./tasks/copy-index-file.yml
+
+  handlers:
+  - name: Nginx Service Restart
+    ansible.builtin.import_tasks: ./handlers/nginx-service-restart.yml

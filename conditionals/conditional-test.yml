@@ -1,0 +1,29 @@
+---
+- name: Conditionals Test Playbook
+  hosts: workers
+  gather_facts: True
+  
+  vars:
+    packages:
+      - name: git
+        required: True
+      - name: nginx
+        required: True
+      - name: mysql
+        required: False
+
+  tasks:
+  - name: Install the packages
+    loop: "{{ packages }}"
+    ansible.builtin.yum:
+      name:
+        - "{{ item['name'] }}"
+      state: present
+    when: item['required'] == True
+    become: yes
+
+  - name: Print the value of required field of packages vars
+    loop: "{{ packages }}"
+    ansible.builtin.debug:
+      var: item['required']
+      

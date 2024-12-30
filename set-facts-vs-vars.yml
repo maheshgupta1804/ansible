@@ -1,0 +1,39 @@
+---
+- name: Check Facts
+  hosts: workers
+
+  vars:
+    check_var: "Var : {{ lookup('pipe', 'date +\"%Y%m%d%H%M%S\"') }}"
+
+  tasks:
+  - name: Check Facts Task
+    ansible.builtin.set_fact:
+      check_fact: "Fact : {{ lookup('pipe', 'date +\"%Y%m%d%H%M%S\"') }}"
+    
+  - name: Print Check Fact
+    ansible.builtin.debug:
+      var: check_fact
+  
+  - name: Sleep Command for 5 Sec
+    ansible.builtin.command:
+      "sleep 5"
+    register: output
+    changed_when: output.rc != 0
+  
+  - name: Print Check Fact
+    ansible.builtin.debug:
+      var: check_fact
+
+  - name: Print Check Fact
+    ansible.builtin.debug:
+      var: check_var
+
+  - name: Sleep Command for 5 Sec
+    ansible.builtin.command:
+      "sleep 5"
+    register: output
+    changed_when: output.rc != 0
+
+  - name: Print Check Fact
+    ansible.builtin.debug:
+      var: check_var

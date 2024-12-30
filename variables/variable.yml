@@ -1,0 +1,98 @@
+---
+- name: Boolean Variable Playbook
+  hosts: masters
+  gather_facts: true
+  become: true
+
+  vars:
+    # String Variable #
+    string_variable: "MyFirstStringVariable"
+
+    # Boolean Variable #
+    is_enalbe: true 
+
+    # List Variable #
+    fruits:
+    - apple
+    - banana
+    - orange
+
+    # Dictionary Variable #
+    fruits_prices:
+      apple: 0.25
+      banana: 0.50
+      orange: 0.75
+
+    # Nested List Variable #
+    fruit_basket:
+    - name: Mahesh
+      fruits:
+      - apple
+      - orange
+    - name: Sapna
+      fruits:
+      - orange
+      - banana
+
+  vars_files:
+  - global-variable.yaml
+
+  tasks:
+  - name: Debug module to print variable values
+    ansible.builtin.debug:
+      msg: "Hi, Printing the string variable value {{ string_variable }} using Boolean variable condition from {{ ansible_hostname }}."
+    when: is_enalbe
+
+  - name: Print List Variable
+    ansible.builtin.debug:
+      var: fruits
+
+  - name: Print List Variable - Reference Individual Item
+    ansible.builtin.debug:
+      msg: "Value of first index {{ fruits[0] }}"
+  
+  - name: Print Dictionary Variable
+    ansible.builtin.debug:
+      var: fruits_prices
+  
+  - name: Print Dictionary Variable - Reference Individual Item
+    ansible.builtin.debug:
+      msg: "Price of banana is {{ fruits_prices.banana }}."
+
+  - name: Get the price of orange
+    ansible.builtin.command: echo "{{ fruits_prices.orange }}"
+    register: price_of_orange_as_per_register_variable
+    changed_when: price_of_orange_as_per_register_variable.rc != 0
+
+  - name: Print the value of register variable
+    ansible.builtin.debug:
+      msg: "Price of orange {{ price_of_orange_as_per_register_variable.stdout }}"
+
+  - name: Print the price of banana
+    ansible.builtin.debug:
+      var: fruits_prices['banana']
+    
+  - name: Print using msg
+    ansible.builtin.debug:
+      msg: "Price of banana is {{ fruits_prices['banana'] }}."
+
+  - name: "Print Price of Banana From Sapna's Fruits Basket"
+    ansible.builtin.debug:
+      var: fruits_prices[fruit_basket[1].fruits[1]]
+
+  - name: Jinja2 Fileter on Variable
+    ansible.builtin.debug:
+      var: fruits_prices.keys()| list | map('upper')| list
+
+  - name: Print the Variable From Variable File
+    ansible.builtin.debug:
+      var: hello_world
+
+  - name: Print the variable from runtime
+    ansible.builtin.debug:
+      var: version
+
+  - name: Print the Value of Variable from extra-vars File
+    ansible.builtin.debug:
+      var: other_variable
+

@@ -1,0 +1,17 @@
+---
+- name: String Variable Play
+  hosts: all
+  gather_facts: true
+  become: true
+  
+  vars:
+    string_variable: "Test-String-Variable"
+  
+  tasks:
+  - name: Debug Module - Print String Variable
+    ansible.builtin.debug:
+      var: string_variable
+
+  - name: Debug Module - Print Massage Using String Variable
+    ansible.builtin.debug:
+      msg: "Hi, Printing the string variable value here {{ string_variable }} from {{ ansible_hostname }}"
