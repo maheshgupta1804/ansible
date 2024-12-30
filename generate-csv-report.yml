@@ -1,0 +1,24 @@
+---
+- name: Generate CSV Report
+  hosts: rhel
+  become: True
+  gather_facts: True
+
+  vars:
+    csv_path: /tmp
+    csv_filename: report.csv
+    headers: Hostname,OS,Distro Ver,Kernel Ver,Uptime
+
+  tasks:
+  - name: Save CSV headers
+    ansible.builtin.lineinfile:
+      dest: "{{ csv_path }}/{{ csv_filename }}"
+      line: "{{ headers }}"
+      create: True
+      state: present
+      mode: 0777
+      group: admin
+      owner: admin
+    delegate_to: localhost
+    run_once: True
+
