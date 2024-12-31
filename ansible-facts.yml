@@ -3,11 +3,11 @@
   hosts: all
   gather_facts: true
   tasks:
-  - name: Ansible Facts
-    ansible.builtin.debug:
-      msg: 
-        - "{{ ansible_facts }}"
-        - "{{ ansible_facts['mounts'][0]['device'] }}"
-        - "{{ ansible_facts['mounts'][0]['fstype'] }}"
-        - "{{ ansible_facts['mounts'][0]['uuid'] }}"
-      
+    - name: Ansible Facts
+      ansible.builtin.debug:
+        msg:
+          - "{{ ansible_facts }}"
+          - "{{ ansible_facts['mounts'][0]['device'] }}"
+          - "{{ ansible_facts['mounts'][0]['fstype'] }}"
+          - "{{ ansible_facts['mounts'][0]['uuid'] }}"
+          
