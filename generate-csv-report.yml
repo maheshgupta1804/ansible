@@ -7,12 +7,12 @@
 
   vars:
     csv_path: /home/admin/ansible/
-    headers: Hostname,OS,Distro Ver,Kernel Ver,Uptime
+    headers: Hostname,OS,Distro Ver,Kernel Ver,Uptime(In Hours)
 
   tasks:
     - name: CSV Filename
       ansible.builtin.set_fact:
-        csv_filename: report.{{ lookup('pipe', 'date +\%Y\%m\%d\%H\%M\%S') }}.csv
+        csv_filename: report.{{ lookup('pipe', 'date +\%Y\%m\%d\%H\%M') }}.csv
 
     - name: Save CSV headers
       ansible.builtin.lineinfile:
@@ -30,9 +30,9 @@
       ansible.builtin.lineinfile:
         dest: "{{ csv_path }}/{{ csv_filename }}"
         line: >-
-          {{ ansible_facts['hostname'] }},{{ ansible_facts['distribution'] }},
+          {{ ansible_facts['hostname'] }}, {{ ansible_facts['distribution'] }},
           {{ ansible_facts['distribution_version'] }},
-          {{ ansible_facts['kernel'] }},{{ ansible_facts['uptime_seconds'] }}
+          {{ ansible_facts['kernel'] }}, {{ (ansible_facts['uptime_seconds'] / 3600) | round(2) }}
         create: true
         state: present
         group: admin
