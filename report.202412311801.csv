@@ -1,4 +1,0 @@
-Hostname,OS,Distro Ver,Kernel Ver,Uptime(In Hours)
-master01, OracleLinux, 8.10, 4.18.0-553.33.1.el8_10.x86_64, 2.47
-worker02, OracleLinux, 8.10, 4.18.0-553.33.1.el8_10.x86_64, 2.45
-worker01, OracleLinux, 8.10, 4.18.0-553.33.1.el8_10.x86_64, 2.46

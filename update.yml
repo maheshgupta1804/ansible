@@ -83,6 +83,7 @@
         # User specific aliases and functions # START #
 
         alias yum='sudo yum'
+        alias dnf='sudo dnf'
         alias init='sudo init'
         alias systemctl='sudo systemctl'
         alias cls='clear'
