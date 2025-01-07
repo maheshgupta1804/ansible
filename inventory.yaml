@@ -1,0 +1,13 @@
+ungrouped:
+  hosts:
+    localhost:
+k8masters:
+  hosts:
+    master01.test.local:
+k8workers:
+  hosts:
+    worker01.test.local:
+    worker02.test.local:
+  vars:
+    nameserver01: "nameserver 1.1.1.1"
+    nameserver02: "nameserver 8.8.8.8"

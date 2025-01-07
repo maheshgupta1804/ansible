@@ -1,0 +1,8 @@
+---
+- name: Sample Ansible Vault Playbook
+  hosts: all
+
+  tasks:
+    - name: Print the Values of Ansible Vault
+      ansible.builtin.debug:
+        var: firstname

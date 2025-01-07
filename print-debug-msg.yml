@@ -1,0 +1,8 @@
+---
+- name: Print the values of hosts variables
+  hosts: all
+  tasks:
+    - name: Print the hostvars
+      ansible.builtin.debug:
+        msg: |
+          Hello World From "{{ inventory_hostname }}"
