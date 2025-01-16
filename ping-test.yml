@@ -5,3 +5,6 @@
   tasks:
     - name: Ping Test
       ansible.builtin.ping:
+    - name: Hello World Message From Inventory Hosts
+      ansible.builtin.debug:
+        msg: "Hello World From {{ inventory_hostname }}!!!"
