@@ -1,10 +1,17 @@
-master01 ansible_host=192.168.56.11
-worker01 ansible_host=192.168.56.12
-worker02 ansible_host=192.168.56.13
+ansible_clients:
+  hosts:
+    node01:
+      ansible_host: 172.17.0.2
+    node02:
+      ansible_host: 172.17.0.3
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+    ansible_ssh_transfer_method: smart
 
-[masters]
-master01
-
-[workers]
-worker01
-worker02
+ansible_controller:
+  hosts:
+    localhost:
+      ansible_host: 172.17.0.1
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+    ansible_ssh_transfer_method: smart

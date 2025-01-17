@@ -1,0 +1,16 @@
+--- 
+- name: When Condition Examples
+  hosts: workers
+  gather_facts: True
+
+  tasks:
+  - name: Task 1
+    ansible.builtin.command:
+      cat "/etc/hosts"
+    register: output
+  
+  - name: Task 2
+    ansible.builtin.debug:
+      var:  output.stdout
+    when: output.rc == 0
+
