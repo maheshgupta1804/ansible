@@ -1,0 +1,13 @@
+---
+- name: Find installed Java Version using Ansible Playbook
+  hosts: localhost
+  tasks:
+    - name: Run java --version command
+      ansible.builtin.command:
+        cmd: "java --version"
+      register: java_version
+      changed_when: java_version.rc != 0
+    - name: Print installed Java Version
+      ansible.builtin.debug:
+        msg:
+          - "Installed Java version on system {{ ansible_hostname | upper }} is {{ (java_version.stdout | split)[1] }}"

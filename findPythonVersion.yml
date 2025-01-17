@@ -1,0 +1,15 @@
+---
+- name: Find Python Version from Ansible Playbook
+  hosts: localhost
+  gather_facts: true
+  tasks:
+    - name: Find python version by running python --version command
+      ansible.builtin.command:
+        cmd: "python3 --version"
+      register: python_version
+      changed_when: python_version.rc != 0
+
+    - name: Print python version
+      ansible.builtin.debug:
+        msg:
+          - "Installed python version on {{ ansible_hostname }} is {{ python_version.stdout }}"
