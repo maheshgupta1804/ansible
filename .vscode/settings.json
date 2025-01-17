@@ -1,7 +1,3 @@
 {
-    "files.associations": {
-    "*plays.yml": "ansible",
-    "*init.yml": "yaml",
-  },
-  "ansible.python.interpreterPath": "/bin/python3"
+    "ansible.python.interpreterPath": "/bin/python3"
 }
