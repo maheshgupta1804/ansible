@@ -1,9 +1,0 @@
-{
-    "ansible.python.interpreterPath": "/bin/python3",
-    "yaml.schemas": {
-        "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json": "/*.yml"
-    },
-    "files.associations": {
-        "*.yml" : "ansible",
-    }
-}
