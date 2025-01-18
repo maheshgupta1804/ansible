@@ -1,2 +1,3 @@
 # Ignore the file & dirs #
-.vscode/*
+./.vscode/*
+./.gitignore
