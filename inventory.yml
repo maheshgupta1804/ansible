@@ -1,9 +1,9 @@
 ansible_clients:
   hosts:
     node01:
-      ansible_host: 172.17.0.2
+      ansible_host: 172.22.1.2
     node02:
-      ansible_host: 172.17.0.3
+      ansible_host: 172.22.1.3
   vars:
     ansible_python_interpreter: /usr/bin/python3
     ansible_ssh_transfer_method: smart
@@ -11,7 +11,7 @@ ansible_clients:
 ansible_controller:
   hosts:
     localhost:
-      ansible_host: 172.17.0.1
+      ansible_host: 172.22.1.1
   vars:
     ansible_python_interpreter: /usr/bin/python3
     ansible_ssh_transfer_method: smart
