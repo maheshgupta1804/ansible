@@ -1,0 +1,13 @@
+---
+- name: Modify system configuration post build from template
+  hosts: ansible_controller
+  gather_facts: true
+  vars_files:
+    - system-update.vars
+  tasks:
+    - name: Update system hostname
+      ansible.builtin.command:
+        cmd: "hostnamectl set-hostname {{ inventory_hostname }}.{{ DOMAIN_NAME }}"
+      register: hostnamectl_out
+      changed_when: hostnamectl_out.rc != 0
+      become: true

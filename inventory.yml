@@ -10,8 +10,8 @@ ansible_clients:
 
 ansible_controller:
   hosts:
-    localhost:
-      ansible_host: 172.22.1.1
+    devops:
+      ansible_host: 192.168.56.14
   vars:
     ansible_python_interpreter: /usr/bin/python3
     ansible_ssh_transfer_method: smart
